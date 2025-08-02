@@ -23,4 +23,5 @@ from patients.views import list_patients, create_patients
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/patients", list_patients),
+    path("api/patients/create", create_patients),
 ]

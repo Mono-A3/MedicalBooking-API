@@ -30,3 +30,14 @@ def detail_patient(request, pk):
 
         serializer = PatientSerializer(patient)
         return Response(serializer.data)
+
+    if request.method == "PUT":
+        try:
+            patient = Patient.objects.get(id=pk)
+        except Patient.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PatientSerializer(patient, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)

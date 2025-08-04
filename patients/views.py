@@ -4,22 +4,18 @@ from .models import Patient
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+)
 
 
-class ListPatientView(APIView):
+class ListPatientView(ListAPIView, CreateAPIView):
     allowed_methods = ["GET", "POST"]
-
-    def get(self, request):
-        patients = Patient.objects.all()
-        serializer = PatientSerializer(patients, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = PatientSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_201_CREATED)
+    serializer_class = PatientSerializer
+    queryset = Patient.objects.all()
 
 
 class DetailPatientsView(APIView):

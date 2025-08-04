@@ -20,24 +20,23 @@ def list_patients(request):
         return Response(status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET", "PUT"])
+@api_view(["GET", "PUT", "DELETE"])
 def detail_patient(request, pk):
-    if request.method == "GET":
-        try:
-            patient = Patient.objects.get(id=pk)
-        except Patient.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    try:
+        patient = Patient.objects.get(id=pk)
+    except Patient.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
+    if request.method == "GET":
         serializer = PatientSerializer(patient)
         return Response(serializer.data)
 
     if request.method == "PUT":
-        try:
-            patient = Patient.objects.get(id=pk)
-        except Patient.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
         serializer = PatientSerializer(patient, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    if request.method == "DELETE":
+        patient.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

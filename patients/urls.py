@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path
 
-from .views import list_patients, detail_patient
+from .views import ListPatientView, DetailPatientsView
 
 urlpatterns = [
-    path("patients/", list_patients),
-    path("patients/<int:pk>/", detail_patient),
+    path("patients/", ListPatientView.as_view()),
+    path("patients/<int:pk>/", DetailPatientsView.as_view()),
 ]

@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.urls import path
 
-from .views import ListDoctorView, DetailDoctorsView
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    path("doctors/", ListDoctorView.as_view()),
-    path("doctors/<int:pk>/", DetailDoctorsView.as_view()),
-]
+from .views import ListDoctorView, DetailDoctorsView
+from .viewsets import DoctorViewSet
+
+router = DefaultRouter()
+router.register("doctors", DoctorViewSet)
+
+urlpatterns = router.urls

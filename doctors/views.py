@@ -8,13 +8,13 @@ from rest_framework.generics import (
 )
 
 
-class ListPatientView(ListAPIView, CreateAPIView):
+class ListDoctorView(ListAPIView, CreateAPIView):
     allowed_methods = ["GET", "POST"]
     serializer_class = DoctorSerializer
     queryset = Doctor.objects.all()
 
 
-class DetailPatientsView(RetrieveUpdateDestroyAPIView):
+class DetailDoctorsView(RetrieveUpdateDestroyAPIView):
     allowed_methods = ["GET", "PUT", "DELETE"]
     serializer_class = DoctorSerializer
     queryset = Doctor.objects.all()
